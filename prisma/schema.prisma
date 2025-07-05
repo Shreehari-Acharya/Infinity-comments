@@ -13,6 +13,20 @@ model user {
   username  String   @unique
   email     String   @unique
   password  String
+  comments  comment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model comment {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  user      user     @relation(fields: [userId], references: [id])
+  parentId  String?
+  parent    comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   comment[] @relation("CommentReplies")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
 }

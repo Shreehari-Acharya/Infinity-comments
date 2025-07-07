@@ -1,4 +1,9 @@
-import { IsOptional, IsNumber } from 'class-validator';
+import {
+  IsOptional,
+  IsNumber,
+  IsNotEmpty,
+  IsUUID,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class RangeParamsDto {
@@ -11,4 +16,10 @@ export class RangeParamsDto {
   @Type(() => Number)
   @IsNumber()
   end?: number;
+}
+
+export class RangeWithIdDto extends RangeParamsDto {
+  @IsNotEmpty()
+  @IsUUID()
+  id: string;
 }

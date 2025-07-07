@@ -13,6 +13,7 @@ import {
   CreateCommentDto,
   EditCommentDto,
   RangeParamsDto,
+  RangeWithIdDto,
 } from './dto';
 import { User } from 'src/user/user.decorator';
 import { user } from 'generated/prisma';
@@ -34,8 +35,8 @@ export class CommentController {
   }
 
   @Get(':id')
-  getCommentById(@Param('id') id: string) {
-    return this.commentService.getCommentById(id);
+  getCommentById(@Param() params: RangeWithIdDto) {
+    return this.commentService.getCommentById(params);
   }
 
   @Post()

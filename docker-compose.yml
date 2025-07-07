@@ -11,5 +11,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  dev-redis:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+      - "8001:8001" 
+
 volumes:
   postgres_data:

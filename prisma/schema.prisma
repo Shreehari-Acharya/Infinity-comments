@@ -14,6 +14,7 @@ model user {
   email     String   @unique
   password  String
   comments  comment[]
+  notifications notification[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -29,4 +30,14 @@ model comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
+}
+
+model notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      user     @relation(fields: [userId], references: [id])
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

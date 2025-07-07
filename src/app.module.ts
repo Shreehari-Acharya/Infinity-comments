@@ -6,6 +6,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommentModule } from './comment/comment.module';
 import { RedisCacheModule } from './redis-cache/redis-cache.module';
+import { NotificationModule } from './notification/notification.module';
+import { QueueModule } from './queue/queue.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { RedisCacheModule } from './redis-cache/redis-cache.module';
     }),
     CommentModule,
     RedisCacheModule,
+    NotificationModule,
+    QueueModule,
   ],
   providers: [PrismaService],
 })

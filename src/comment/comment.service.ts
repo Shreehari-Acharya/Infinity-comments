@@ -8,12 +8,14 @@ import {
   RangeWithIdDto,
 } from './dto';
 import { RedisCacheService } from 'src/redis-cache/redis-cache.service';
+import { QueueService } from 'src/queue/queue.service';
 
 @Injectable()
 export class CommentService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly redisCacheService: RedisCacheService,
+    private readonly replyQueueService: QueueService,
   ) {}
 
   async getMyComments(user: user, params: RangeParamsDto) {
@@ -292,6 +294,11 @@ export class CommentService {
     if (parentId) {
       await this.redisCacheService.deleteCachedComment(
         `${parentId}-0-10`,
+      );
+
+      await this.replyQueueService.addReplyToQueue(
+        parentId,
+        user.username,
       );
     } else {
       await this.redisCacheService.deleteCachedComment(

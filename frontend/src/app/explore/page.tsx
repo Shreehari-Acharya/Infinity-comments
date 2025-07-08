@@ -1,7 +1,6 @@
 "use client";
 import request from "@/lib/request";
 import { useEffect, useState } from "react";
-import Sidebar from "./components/sidebar";
 import { Comment } from "@/types";
 import CommentCard from "./components/comment-card";
 
@@ -24,14 +23,17 @@ export default function ExplorePage() {
         fetchComments();
     }, []);
     
+    if(loading) {
+        return (
+            <div className="w-full h-full flex items-center justify-center">
+                <p className="text-gray-500">Loading comments...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="w-full h-screen flex justify-start px-4">
-        <div className="w-1/6 h-full">
-            <Sidebar/>
-        </div>
         <div className="w-5/6 h-full flex flex-col items-center justify-start pt-4">
-            {!loading && comments.length > 0 ? (
+            {comments.length > 0 ? (
                 comments.map((comment) => (
                     <CommentCard key={comment.id} comment={comment} />
                 ))
@@ -40,7 +42,6 @@ export default function ExplorePage() {
                     <p className="text-gray-500">No comments available.</p>
                 </div>
             )}
-        </div>
         </div>
     );
     }

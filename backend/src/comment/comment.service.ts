@@ -31,6 +31,11 @@ export class CommentService {
         content: true,
         createdAt: true,
         updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
 
         parent: {
           select: {

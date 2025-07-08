@@ -1,3 +1,4 @@
+"use client";
 import { User } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -27,8 +28,8 @@ export default function Sidebar() {
                     </Link>
                 </li>
                 <li className="h-10 text-xl flex items-center justify-start">
-                    <Link href="/explore/your-comments" className="text-blue-300 hover:underline">
-                        Your Comments
+                    <Link href="/explore/my-comments" className="text-blue-300 hover:underline">
+                        My Comments
                     </Link>
                 </li>
                 <li className="h-10 text-xl flex items-center justify-start">

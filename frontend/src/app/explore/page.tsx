@@ -1,34 +1,44 @@
 "use client";
 import request from "@/lib/request";
 import { useEffect, useState } from "react";
+import Sidebar from "./components/sidebar";
+import { Comment } from "@/types";
+import CommentCard from "./components/comment-card";
 
 export default function ExplorePage() {
-    const [user, setUser] = useState<any>(null);
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        const fetchUserDetails = async () => {
+        const fetchComments = async () => {
+            setLoading(true);
             try {
-                const { data } = await request.get(`${process.env.NEXT_PUBLIC_API_URL}/users/me`);
-                setUser(data.user);
+                const { data } = await request.get(`${process.env.NEXT_PUBLIC_API_URL}/comments`);
+                setComments(data);
             } catch (error) {
-                console.error("Error fetching user details:", error);
+                console.error("Error fetching comments:", error);
+            }finally {
+                setLoading(false);
             }
-        }
-        fetchUserDetails();
+        };
+        fetchComments();
     }, []);
+    
 
     return (
-        <div className="w-full min-h-screen flex items-center justify-center px-4">
-        <div className="w-1/2 h-full flex items-center justify-center gap-8">
-            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-slate-50 to-slate-500">
-            EXPLORE COMMENTS
-            </h1>
-            {user ? (
-                <div className="text-center">
-                    <h2 className="text-2xl font-semibold">Welcome, {user.username}!</h2>
-                    <p className="mt-2 text-lg">Explore the comments and engage with the community.</p>
-                </div>
+        <div className="w-full h-screen flex justify-start px-4">
+        <div className="w-1/6 h-full">
+            <Sidebar/>
+        </div>
+        <div className="w-5/6 h-full flex flex-col items-center justify-start pt-4">
+            {!loading && comments.length > 0 ? (
+                comments.map((comment) => (
+                    <CommentCard key={comment.id} comment={comment} />
+                ))
             ) : (
-                <p className="text-lg">Loading user details...</p>
+                <div className="w-full h-full flex items-center justify-center">
+                    <p className="text-gray-500">No comments available.</p>
+                </div>
             )}
         </div>
         </div>

@@ -100,26 +100,7 @@ export class CommentService {
             username: true,
           },
         },
-        parent: {
-          select: {
-            content: true,
-            createdAt: true,
-            updatedAt: true,
-            replies: {
-              where: {
-                deletedAt: null,
-              },
-              select: {
-                id: true, // only id is enough. to count
-              },
-            },
-            user: {
-              select: {
-                username: true,
-              },
-            },
-          },
-        },
+
         replies: {
           where: {
             deletedAt: null,
@@ -143,11 +124,6 @@ export class CommentService {
     const allComments = comments.map((comment) => ({
       ...comment,
       repliesCount: comment.replies.length,
-      parentContent: comment.parent?.content || null,
-      parentCreatedAt: comment.parent?.createdAt || null,
-      parentUpdatedAt: comment.parent?.updatedAt || null,
-      parentUsername: comment.parent?.user.username || null,
-      parentRepliesCount: comment.parent?.replies.length || 0,
     }));
 
     await this.redisCacheService.setCachedComment(

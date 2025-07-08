@@ -396,7 +396,7 @@ const arcs = [
 
 export default function Home() {
   return (
-    <div className="font-mono flex bg-black w-full h-screen">
+    <div className="flex bg-black w-full h-screen">
       <div className="w-1/2 h-full text-white flex flex-col items-center justify-center gap-8">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-slate-50 to-slate-500">INFINITY COMMENTS</h1>

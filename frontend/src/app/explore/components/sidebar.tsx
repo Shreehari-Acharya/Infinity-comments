@@ -2,9 +2,41 @@
 import { User } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import request from "@/lib/request";
+import { toast } from "sonner";
+import {io} from "socket.io-client";
+import { useAuthenticatedRequest } from "@/lib/request";
+import { useAuth } from "@/context/authContext";
+
 
 export default function Sidebar() {
+    const request = useAuthenticatedRequest();
+    const { getToken } = useAuth();
+    const accessToken = getToken();
+
+    useEffect(() => {
+        const socket = io(process.env.NEXT_PUBLIC_WS_URL!,{
+            extraHeaders: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+
+        socket.on("connect", () => {
+            console.log("Connected to WS");
+        });
+
+        socket.on("notification", (data) => {
+            console.log("Notification received:", data);
+            toast.success(`New notification: ${data.message}`);
+        });
+
+        socket.on("disconnect", () => {
+            console.log("WebSocket disconnected");
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
 
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {

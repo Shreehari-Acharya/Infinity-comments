@@ -10,13 +10,16 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Trash2 } from "lucide-react"
-import request from "@/lib/request"
+import { useAuthenticatedRequest } from "@/lib/request"
 import { toast } from "sonner"
 
 interface DeleteCommentAlertDialogProps {
   commentId: string
 }
 export function DeleteCommentDialog({commentId}: DeleteCommentAlertDialogProps) {
+
+    const request = useAuthenticatedRequest();
+    
     const handleDelete = async () => {
         try {
             const { data } = await request.delete(`${process.env.NEXT_PUBLIC_API_URL}/comments/${commentId}`)

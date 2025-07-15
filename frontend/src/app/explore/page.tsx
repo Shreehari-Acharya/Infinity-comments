@@ -1,5 +1,5 @@
 "use client";
-import request from "@/lib/request";
+import { useAuthenticatedRequest } from "@/lib/request";
 import { useEffect, useState } from "react";
 import { Comment } from "@/types";
 import CommentCard from "./components/comment-card";
@@ -7,6 +7,7 @@ import CommentCard from "./components/comment-card";
 export default function ExplorePage() {
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
+    const request = useAuthenticatedRequest();
 
     useEffect(() => {
         const fetchComments = async () => {

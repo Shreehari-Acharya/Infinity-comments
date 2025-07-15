@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MessageCircle, Undo2Icon } from "lucide-react"
 import { MyComment } from "@/types"
-import request from "@/lib/request"
+import { useAuthenticatedRequest } from "@/lib/request"
 import { toast } from "sonner"
 
 interface CommentCardProps {
@@ -24,6 +24,8 @@ function formatTimeAgo(dateString: string): string {
 export default function MyCommentCard({ comment }: CommentCardProps) {
   const isReply = comment.parent !== null
 
+  const request = useAuthenticatedRequest()
+  
   const handleRestore = async () => {
     try {
       const { data } = await request.patch(`${process.env.NEXT_PUBLIC_API_URL}/comments/restore/${comment.id}`)

@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import request from "@/lib/request";
+import { useAuthenticatedRequest } from "@/lib/request";
 import { MyComment } from "@/types";
 import MyCommentCard from "./components/my-comment-card";
 
 
 export default function MyCommentsPage() {
     const [myComments, setMyComments] = useState<MyComment[]>([]);
+    const request = useAuthenticatedRequest();
+    
 
     useEffect(() => {
         const fetchMyComments = async () => {

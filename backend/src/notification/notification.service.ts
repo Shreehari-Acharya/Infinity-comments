@@ -25,8 +25,10 @@ export class NotificationGateway
   private userSockets: Map<string, string> = new Map(); // userId -> socketId
 
   async handleConnection(client: Socket) {
-    const token = this.extractTokenFromSocket(client);
-    if (!token) {
+    let token: string;
+    try {
+      token = this.extractTokenFromSocket(client);
+    } catch {
       console.error('No token found in socket connection');
       client.disconnect();
       return;
@@ -41,7 +43,7 @@ export class NotificationGateway
       });
       userId = payload.sub;
     } catch (error) {
-      console.error('Invalid token:', error);
+      console.error('Invalid token:', error.message ? error.message : error);
       client.disconnect();
       return;
     }

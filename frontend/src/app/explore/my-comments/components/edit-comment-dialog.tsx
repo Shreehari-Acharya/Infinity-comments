@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
-import request from "@/lib/request"
+import { useAuthenticatedRequest } from "@/lib/request"
 import { toast } from "sonner"
 import { Edit3 } from "lucide-react"
 
@@ -23,7 +23,8 @@ interface EditCommentDialogProps {
 
 export function EditCommentDialog({commentId, initialContent}: EditCommentDialogProps) {
   const [open, setOpen] = useState(false)
-
+  const request = useAuthenticatedRequest()
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const form = e.currentTarget

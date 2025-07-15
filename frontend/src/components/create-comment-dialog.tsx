@@ -12,11 +12,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "./ui/textarea"
 import { useState } from "react"
-import request from "@/lib/request"
+import { useAuthenticatedRequest } from "@/lib/request"
 import { toast } from "sonner"
 
 export function CreateCommentDialog() {
   const [open, setOpen] = useState(false)
+  const request = useAuthenticatedRequest()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import request from "@/lib/request";
+import { useAuthenticatedRequest } from "@/lib/request";
 import { MyComment } from "@/types";
 import MyCommentCard from "./components/my-comment-card";
 
 
 export default function DeletedCommentsPage() {
     const [myComments, setMyDeletedComments] = useState<MyComment[]>([]);
-
+    const request = useAuthenticatedRequest();
+    
     useEffect(() => {
         const fetchMyDeletedComments = async () => {
             try {

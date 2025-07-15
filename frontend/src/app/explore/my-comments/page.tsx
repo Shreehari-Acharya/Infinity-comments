@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import request from "@/lib/request";
 import { MyComment } from "@/types";
 import MyCommentCard from "./components/my-comment-card";
@@ -22,7 +22,6 @@ export default function MyCommentsPage() {
 
     return (
         <div className="w-5/6 h-full flex flex-col items-center justify-start">
-            <h1 className="text-3xl font-bold text-gray-700">My Comments</h1>
             {myComments.length > 0 ? (
                 myComments.map((comment) => (
                     <MyCommentCard key={comment.id} comment={comment} />

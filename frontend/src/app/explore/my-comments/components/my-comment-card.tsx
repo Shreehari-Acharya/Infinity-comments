@@ -1,8 +1,10 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MessageCircle, Edit3, Trash2 } from "lucide-react"
+import { MessageCircle } from "lucide-react"
 import { MyComment } from "@/types"
+import { EditCommentDialog } from "./edit-comment-dialog"
+import { DeleteCommentDialog } from "./delete-comment-alertDialog"
 
 interface CommentCardProps {
   comment: MyComment
@@ -21,17 +23,6 @@ function formatTimeAgo(dateString: string): string {
 
 export default function MyCommentCard({ comment }: CommentCardProps) {
   const isReply = comment.parent !== null
-
-
-  const handleEdit = () => {
-    console.log("Edit comment:", comment.id)
-    // Implement edit functionality
-  }
-
-  const handleDelete = () => {
-    console.log("Delete comment:", comment.id)
-    // Implement delete functionality
-  }
 
   return (
     <div className="w-5/6 text-white border-b border-gray-800 p-4 hover:bg-gray-950 transition-colors">
@@ -75,23 +66,10 @@ export default function MyCommentCard({ comment }: CommentCardProps) {
               )}
             </div>
 
-           
+              <div>
+                <EditCommentDialog initialContent={comment.content} commentId={comment.id} />
             
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleEdit}
-                  className="p-1.5 rounded-full hover:bg-gray-800 text-gray-500 hover:text-blue-400 transition-colors"
-                  aria-label="Edit comment"
-                >
-                  <Edit3 className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className="p-1.5 rounded-full hover:bg-gray-800 text-gray-500 hover:text-red-400 transition-colors"
-                  aria-label="Delete comment"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                <DeleteCommentDialog commentId={comment.id} />
               </div>
             
           </div>

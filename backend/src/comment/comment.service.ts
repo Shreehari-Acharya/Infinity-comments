@@ -73,6 +73,50 @@ export class CommentService {
     }));
   }
 
+  async getMyDeletedComments(user: user) {
+    const deletedComments = await this.prismaService.comment.findMany({
+      where: {
+        userId: user.id,
+        deletedAt: {
+          not: null,
+        },
+      },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+        parent: {
+          select: {
+            user: {
+              select: {
+                username: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    if (!deletedComments || deletedComments.length === 0) {
+      return [];
+    }
+
+    return deletedComments.map((comment) => ({
+      ...comment,
+      parentUsername: comment.parent?.user.username || null,
+    }));
+    
+  }
+
   async getAllComments(params: RangeParamsDto) {
     const { start = 0, end = 10 } = params;
 

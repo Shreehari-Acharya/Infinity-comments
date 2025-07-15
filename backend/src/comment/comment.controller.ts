@@ -29,6 +29,11 @@ export class CommentController {
     return this.commentService.getMyComments(user, params);
   }
 
+  @Get('deleted')
+  getMyDeletedComments(@User() user: user) {
+    return this.commentService.getMyDeletedComments(user);
+  }
+
   @Get()
   getAllComments(@Param() params: RangeParamsDto) {
     return this.commentService.getAllComments(params);
